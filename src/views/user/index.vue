@@ -1,17 +1,14 @@
 <template>
   <div class="app-container">
     <el-table v-loading="listLoading" :data="list" highlight-current-row>
-      <el-table-column align="center" label="用户ID">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" />
+      <el-table-column prop="id" label="用户ID" />
+      <el-table-column prop="userName" label="姓名" />
       <el-table-column prop="type" label="类型" />
       <el-table-column prop="pwd" label="密码" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button type="text" @click="handleClick(scope.row)" size="small">编辑</el-button>
+          <el-button type="text" @click="handleDel(scope.row)" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -22,19 +19,33 @@
       :limit.sync="listParams.limit"
       @pagination="getList"
     />
+    <template>
+      <el-dialog
+          :title="dialog.title"
+          :visible.sync="dialog.visible"
+          width="30%"
+          :before-close="handleClose">
+        <editForm ref="editFrom" @form-data="subFromData" :user-form="rowInfo"/>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="handleClose">取 消</el-button>
+          <el-button type="primary" @click="handleSub">确 定</el-button>
+        </span>
+      </el-dialog>
+    </template>
+   
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 
-// import editForm from './components/editForm';
+import editForm from './components/editForm';
 import Pagination from "@/components/Pagination/index.vue";
 
 @Component({
   name: 'userList',
   components: {
-    // editForm,
+    editForm,
     Pagination
   }
 })
@@ -43,6 +54,11 @@ export default class extends Vue {
   created () {
     this.getList()
   }
+  private dialog :any = {
+    visible: false,
+    title: '修改'
+  }
+  private rowInfo : any = {}
   private total = 0;
   private list: any = []
   private listLoading:boolean = false;
@@ -50,21 +66,36 @@ export default class extends Vue {
     page: 1,
     limit: 20
   }
+  private handleClose(): void{
+    this.rowInfo = {};
+    this.dialog.visible = false;
+  }
+  private handleClick(row :any) :void{
+    this.rowInfo = row
+    this.dialog.visible = true
+  }
+  private handleSub() :void {
+    this.$refs.editFrom.submitForm()
+  }
+  private handleDel(row: any) {
+    this.list = this.list.filter(el=> el.id !== row.id)
+    window.sessionStorage.setItem('userList', JSON.stringify(this.list))
+  }
+  private subFromData(row : any) {
+    this.list = this.list.map(el=> {
+      if (el.id === row.id) el = Object.assign({}, row)
+      return el
+    })
+    this.handleClose();
+  }
 
   private getList() : void{
     this.listLoading = true
     setTimeout(()=> {
       this.listLoading = false
-      this.list= [
-        { id: 1, name: '张三',  type: '测试', pwd: '123456' },
-        { id: 2, name: '小四',  type: '管理员', pwd: '12222' },
-        { id: 3, name: '老远',  type: '用户A', pwd: '312322' },
-        { id: 4, name: '王和',  type: '开发', pwd: '231244' },
-        { id: 5, name: '李牧',  type: '测产品试', pwd: '666666' },
-        { id: 6, name: '拉破s拉破s',  type: '项目经理', pwd: '3232323' },
-        { id: 7, name: '函数',  type: '开发', pwd: '212113' },
-        { id: 8, name: '张三',  type: '管理员', pwd: '222222' },
-      ]
+      let list:any= window.sessionStorage.getItem('userList')
+      this.list= list ? JSON.parse(list) : []
+      console.log(this.list)
       this.total = this.list.length
     }, 10)
     

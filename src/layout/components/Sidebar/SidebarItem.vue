@@ -50,7 +50,7 @@ import SidebarItemLink from "./SidebarItemLink.vue";
 export default class extends Vue {
   // !: 表示一定存在，?: 表示可能不存在。这两种在语法上叫赋值断言
 
-  // @Prop(options: (PropOptions | Constructor[] | Constructor) = {})
+  // rop(options: (PropOptions | Constructor[] | Constructor) = {})
   // PropOptions，可以使用以下选项：type，default，required，validator
   // Constructor[]，指定 prop 的可选类型
   // Constructor，例如String，Number，Boolean等，指定 prop 的类型

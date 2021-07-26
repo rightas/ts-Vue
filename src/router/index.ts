@@ -112,7 +112,7 @@ export const constantRoutes: RouteConfig[] = [
     redirect: "/userList/index",
     meta: {
       title: "userList",
-      icon: "userList"
+      icon: 'user'
     },
     children: [
       {

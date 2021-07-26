@@ -13,7 +13,7 @@
             v-for="item in options"
             :key="item.value"
             :label="item.label"
-            :value="item.value">
+            :value="item.label">
           </el-option>
         </el-select>
       </el-form-item>
@@ -35,28 +35,34 @@ import { From } from 'element-ui'
 
 export default class extends Vue {
   // private userForm = Object.assign({}, userForm1);
-  userForm = {
+  userForm: any = {
     userName: '',
     pwd: '',
     type: ''
   }
-  userFormRules = {
+  userFormRules :any = {
     userName: [ { required: true, message: '请输入用户名', trigger: 'blur' }],
     pwd: [ { required: true, message: '请输入密码', trigger: 'blur' } ],
     type: [ { required: true, message: '请输入类型', trigger: 'change' } ]
   }
   private loading = false;
-  private options = [
-    { value: '1', label: '管理员' },
+  private options : any[]  = [
+    { value: '1', label: '管理员'},
     { value: '2', label: '开发' },
     { value: '3', label: '用户' },
     { value: '4', label: '测试' },
     { value: '5', label: '其它' },
   ];
-
   private submitForm() : void{
-    (this.$refs['userForm'] as Form).validate(valid => {
+    (this.$refs['userForm'] as Form).validate((valid : any) => {
       if (valid) {
+        let list:any= window.sessionStorage.getItem('userList')
+        list = list ? JSON.parse(list) : []
+        list.push({
+          ...this.userForm,
+          id: list.length ? list.length : 1
+        })
+        window.sessionStorage.setItem('userList', JSON.stringify(list))
         this.loading = true;
         this.$notify({
           title: "添加成功",

@@ -26,21 +26,21 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
+import { IUserFormData } from "@/api/types";
 
-import { From } from 'element-ui'
+import { Form } from 'element-ui'
 
 @Component({
   name: 'addUser'
 })
 
 export default class extends Vue {
-  // private userForm = Object.assign({}, userForm1);
-  userForm: any = {
+  userForm: IUserFormData = {
     userName: '',
     pwd: '',
     type: ''
   }
-  userFormRules :any = {
+  userFormRules : any = {
     userName: [ { required: true, message: '请输入用户名', trigger: 'blur' }],
     pwd: [ { required: true, message: '请输入密码', trigger: 'blur' } ],
     type: [ { required: true, message: '请输入类型', trigger: 'change' } ]

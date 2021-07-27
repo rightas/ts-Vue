@@ -23,10 +23,9 @@
 </template>
 <script lang="ts">
 import { Vue, Prop, Component, Emit } from 'vue-property-decorator'
-
-import { from } from 'element-ui'
+import { Form } from 'element-ui'
 @Component({
-  name: 'editForm',
+  name: 'editForm'
 })
 export default class editForm  extends Vue {
   @Prop({type: Object, required: true, default: { userName: '',pwd: '',type: '', id: ''} })  userForm: Object;
@@ -53,10 +52,7 @@ export default class editForm  extends Vue {
     })
   }
   @Emit()
-  formData() {
-    return Object.assign({}, this.userForm)
-  }
-  
+  formData(item: any = Object.assign({}, this.userForm)) {}
  
 }
 </script>

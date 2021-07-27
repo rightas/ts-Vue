@@ -38,8 +38,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-
-import editForm from './components/editForm';
+import editForm from './components/editForm.vue';
 import Pagination from "@/components/Pagination/index.vue";
 
 @Component({
@@ -75,14 +74,14 @@ export default class extends Vue {
     this.dialog.visible = true
   }
   private handleSub() :void {
-    this.$refs.editFrom.submitForm()
+    (this.$refs['editFrom'] as HTMLFormElement).submitForm()
   }
   private handleDel(row: any) {
-    this.list = this.list.filter(el=> el.id !== row.id)
+    this.list = this.list.filter((el: any)=> el.id !== row.id)
     window.sessionStorage.setItem('userList', JSON.stringify(this.list))
   }
   private subFromData(row : any) {
-    this.list = this.list.map(el=> {
+    this.list = this.list.map( (el : any) => {
       if (el.id === row.id) el = Object.assign({}, row)
       return el
     })

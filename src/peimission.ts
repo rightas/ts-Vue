@@ -22,7 +22,7 @@ router.beforeEach(async (to: Route, _: Route, next: any) => {
       NProgress.done();
     } else {
       // Note: roles must be a object array! such as: ['admin'] or ['developer', 'editor']
-      if (UserModule.roles.length === 0) {
+      if (UserModule.roles && UserModule.roles.length === 0) {
         try {
           // Get user info, including roles
           await UserModule.GetUserInfo();

@@ -27,6 +27,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 import { IUserFormData } from "@/api/types";
+import { AdminListModule } from "@/store/modules/adminList";
 
 import { Form } from 'element-ui'
 
@@ -56,20 +57,19 @@ export default class extends Vue {
   private submitForm() : void{
     (this.$refs['userForm'] as Form).validate((valid : any) => {
       if (valid) {
-        let list:any= window.sessionStorage.getItem('userList')
-        list = list ? JSON.parse(list) : []
+        let list:any= AdminListModule.getList
         list.push({
           ...this.userForm,
           id: list.length ? list.length : 1
         })
-        window.sessionStorage.setItem('userList', JSON.stringify(list))
+        AdminListModule.updList(list)
+        
         this.loading = true;
-        this.$notify({
-          title: "添加成功",
-          message: "The post published successfully",
+        this.$notify( {
+          message: "添加成功",
           type: "success",
           duration: 2000
-        });
+        } );
         setTimeout(() => {
           this.loading = false;
           this.$router.push({ path: "/userList/index" });

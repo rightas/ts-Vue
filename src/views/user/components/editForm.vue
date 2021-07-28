@@ -52,7 +52,9 @@ export default class editForm  extends Vue {
     })
   }
   @Emit()
-  formData(item: any = Object.assign({}, this.userForm)) {}
+  formData() {
+    return Object.assign({}, this.userForm)
+  }
  
 }
 </script>

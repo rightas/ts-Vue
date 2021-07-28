@@ -40,7 +40,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import editForm from './components/editForm.vue';
 import Pagination from "@/components/Pagination/index.vue";
-
+import { AdminListModule } from "@/store/modules/adminList";
 @Component({
   name: 'userList',
   components: {
@@ -78,13 +78,14 @@ export default class extends Vue {
   }
   private handleDel(row: any) {
     this.list = this.list.filter((el: any)=> el.id !== row.id)
-    window.sessionStorage.setItem('userList', JSON.stringify(this.list))
+    AdminListModule.updList(this.list)
   }
   private subFromData(row : any) {
     this.list = this.list.map( (el : any) => {
       if (el.id === row.id) el = Object.assign({}, row)
       return el
     })
+    AdminListModule.updList(this.list)
     this.handleClose();
   }
 
@@ -92,14 +93,11 @@ export default class extends Vue {
     this.listLoading = true
     setTimeout(()=> {
       this.listLoading = false
-      let list:any= window.sessionStorage.getItem('userList')
-      this.list= list ? JSON.parse(list) : []
+      this.list= AdminListModule.getList
       console.log(this.list)
       this.total = this.list.length
     }, 10)
-    
   }
-
 }
 
 </script>

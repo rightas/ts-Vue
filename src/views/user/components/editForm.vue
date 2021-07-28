@@ -24,6 +24,8 @@
 <script lang="ts">
 import { Vue, Prop, Component, Emit } from 'vue-property-decorator'
 import { Form } from 'element-ui'
+import { AdminListModule } from "@/store/modules/adminList";
+
 @Component({
   name: 'editForm'
 })
@@ -34,13 +36,10 @@ export default class editForm  extends Vue {
     pwd: [ { required: true, message: '请输入密码', trigger: 'blur' } ],
     type: [ { required: true, message: '请输入类型', trigger: 'change' } ]
   }
-  private options : any[]  = [
-    { value: '1', label: '管理员'},
-    { value: '2', label: '开发' },
-    { value: '3', label: '用户' },
-    { value: '4', label: '测试' },
-    { value: '5', label: '其它' },
-  ];
+  private options : any[]  = []
+  created () {
+    this.options = AdminListModule.optionsList
+  }
   private submitForm() : void {
     (this.$refs['userForm'] as Form).validate((valid : any) => {
       if (valid) {

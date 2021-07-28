@@ -47,13 +47,7 @@ export default class extends Vue {
     type: [ { required: true, message: '请输入类型', trigger: 'change' } ]
   }
   private loading = false;
-  private options : any[]  = [
-    { value: '1', label: '管理员'},
-    { value: '2', label: '开发' },
-    { value: '3', label: '用户' },
-    { value: '4', label: '测试' },
-    { value: '5', label: '其它' },
-  ];
+  private options : any[]  = []
   private submitForm() : void{
     (this.$refs['userForm'] as Form).validate((valid : any) => {
       if (valid) {
@@ -79,6 +73,9 @@ export default class extends Vue {
       }
     });
   }  
+  created () {
+    this.options = AdminListModule.optionsList
+  }
 
 }
 

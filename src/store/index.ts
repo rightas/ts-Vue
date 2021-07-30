@@ -5,6 +5,8 @@ import { IUserState } from "./modules/user";
 import { IPermissionState } from "./modules/permission";
 import { ISettingsState } from "./modules/settings";
 import { IUserList } from './modules/adminList'
+import { IBillList } from './modules/billList'
+
 
 Vue.use(Vuex);
 
@@ -14,6 +16,7 @@ export interface IRootState {
   permission: IPermissionState;
   settings: ISettingsState;
   userList: IUserList;
+  IBillList: IBillList;
 }
 
 // Declare empty store first, dynamically register all modules later.

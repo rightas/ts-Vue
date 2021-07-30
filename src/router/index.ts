@@ -137,6 +137,36 @@ export const constantRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/bill',
+    component: Layout,
+    redirect: "/bill/list",
+    meta: {
+      title: "bill",
+      icon: 'child'
+    },
+    children: [
+      {
+        path: "list",
+        component: () =>
+        import(/* webpackChunkName: "table-edit" */ "@/views/bill/list"),
+        name: "list",
+        meta: {
+          title: "账单列表"
+        }
+      },
+      {
+        path: "add",
+        component: () =>
+        import(/* webpackChunkName: "table-edit" */ "@/views/bill/add"),
+        name: "add",
+        meta: {
+          title: "新增账单"
+        }
+      },
+
+    ]
+  },
+  {
     path: "/table",
     component: Layout,
     redirect: "/table/list",

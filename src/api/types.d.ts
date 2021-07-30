@@ -5,8 +5,16 @@ export interface IArticleData {
   author: string;
 }
 
-interface IUserFormData {
+export interface IUserFormData {
   userName?: string;
   pwd?: string | number;
   type?: string | number;
 }
+
+export interface IBillFromData {
+  userName?: string;
+  sex: string ;
+  address: string;
+  hobby: string;
+}
+
